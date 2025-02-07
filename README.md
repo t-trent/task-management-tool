@@ -7,12 +7,6 @@ A modern full-stack task management tool built with Next.js, TypeScript, and Tai
 - [Overview](#overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Deployment](#deployment)
-- [License](#license)
-- [Contact](#contact)
 
 ## Overview
 
