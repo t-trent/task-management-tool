@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Manager
 
-## Getting Started
+A modern full-stack task management tool built with Next.js, TypeScript, and Tailwind CSS on the frontend and Node.js with Express & PostgreSQL on the backend. This project demonstrates a complete development lifecycle including containerization with Docker, automated testing and CI/CD with GitHub Actions, and deployment to AWS Elastic Beanstalk.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Development Workflow](#development-workflow)
+- [Deployment](#deployment)
+- [License](#license)
+- [Contact](#contact)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Task Manager is a personal project designed to showcase modern web development practices. It features user authentication (using JWTs), a dynamic dashboard, and a responsive design using Tailwind CSS. The project leverages the new Next.js App Router for streamlined routing and layouts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- **Responsive UI:** Built with Next.js and styled with Tailwind CSS.
+- **User Authentication:** Login and registration implemented with JWTs.
+- **Task Management:** Create, update, view, and delete tasks.
+- **Automated CI/CD:** GitHub Actions for building, testing, and deploying the project.
+- **Containerization:** Docker setup for local development and production.
+- **Deployment:** Deployed on AWS Elastic Beanstalk.
+- **Scalable Architecture:** Ready to integrate additional features such as a GraphQL API endpoint.
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend:**  
+  - Next.js (App Router)  
+  - TypeScript  
+  - Tailwind CSS  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Backend:**  
+  - Node.js  
+  - Express  
+  - PostgreSQL  
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **DevOps:**  
+  - Docker  
+  - GitHub Actions (CI/CD)  
+  - AWS Elastic Beanstalk  
