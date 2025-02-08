@@ -34,10 +34,10 @@ Task Manager is a personal project designed to showcase modern web development p
 ## Screenshots
 
 ### Dashboard
-https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/dashboard.png
+![Dashboard](https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/dashboard.png)
 
 ### Landing
-https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/landing.png
+![Landing](https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/landing.png)
 
 ### Account Settings
-https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/account.png
+![Account Settings](https://github.com/t-trent/task-management-tool/blob/main/public/screenshots/account.png)
