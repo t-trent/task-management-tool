@@ -1,6 +1,6 @@
 # Task Manager
 
-A modern full-stack task management tool built with Next.js, TypeScript, and Tailwind CSS on the frontend and Node.js with Express & PostgreSQL on the backend. This project demonstrates a complete development lifecycle including containerization with Docker, automated testing and CI/CD with GitHub Actions, and deployment to AWS Elastic Beanstalk.
+A simple full-stack task management tool run locally built with Next.js, TypeScript, and Tailwind CSS on the frontend and Node.js with PostgreSQL on the backend.
 
 ## Table of Contents
 
@@ -10,17 +10,14 @@ A modern full-stack task management tool built with Next.js, TypeScript, and Tai
 
 ## Overview
 
-Task Manager is a personal project designed to showcase modern web development practices. It features user authentication (using JWTs), a dynamic dashboard, and a responsive design using Tailwind CSS. The project leverages the new Next.js App Router for streamlined routing and layouts.
+Task Manager is a personal project designed to showcase modern web development practices. It features user authentication (using JWTs), a dynamic dashboard, and a responsive design using Tailwind CSS. The project uses the Next.js App Router for streamlined routing and layouts.
 
 ## Features
 
 - **Responsive UI:** Built with Next.js and styled with Tailwind CSS.
 - **User Authentication:** Login and registration implemented with JWTs.
 - **Task Management:** Create, update, view, and delete tasks.
-- **Automated CI/CD:** GitHub Actions for building, testing, and deploying the project.
 - **Containerization:** Docker setup for local development and production.
-- **Deployment:** Deployed on AWS Elastic Beanstalk.
-- **Scalable Architecture:** Ready to integrate additional features such as a GraphQL API endpoint.
 
 ## Tech Stack
 
@@ -31,10 +28,5 @@ Task Manager is a personal project designed to showcase modern web development p
 
 - **Backend:**  
   - Node.js  
-  - Express  
-  - PostgreSQL  
-
-- **DevOps:**  
-  - Docker  
-  - GitHub Actions (CI/CD)  
-  - AWS Elastic Beanstalk  
+  - Prisma  
+  - PostgreSQL
