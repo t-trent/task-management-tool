@@ -37,6 +37,9 @@ export default function Header() {
         <nav>
           {isAuthenticated ? (
             <>
+              <Link href="/dashboard" className="px-3 hover:underline">
+                Dashboard
+              </Link>
               <Link href="/account-settings" className="px-3 hover:underline">
                 Account Settings
               </Link>
@@ -50,7 +53,7 @@ export default function Header() {
                 Login
               </Link>
               <Link href="/register" className="px-3 hover:underline">
-                Signup
+                Sign Up
               </Link>
             </>
           )}

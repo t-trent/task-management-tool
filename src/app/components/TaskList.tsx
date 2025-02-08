@@ -10,13 +10,24 @@ interface Task {
 
 interface TaskListProps {
   tasks: Task[];
+  onStatusChange: (taskId: string, newStatus: string) => void;
+  onDelete: (taskId: string) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  tasks,
+  onStatusChange,
+  onDelete,
+}) => {
   return (
     <div className="grid grid-cols-1 gap-4">
-      {tasks.map(task => (
-        <TaskCard key={task.id} {...task} />
+      {tasks.map((task) => (
+        <TaskCard
+          key={task.id}
+          {...task}
+          onStatusChange={onStatusChange}
+          onDelete={onDelete}
+        />
       ))}
     </div>
   );

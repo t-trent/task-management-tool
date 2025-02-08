@@ -1,16 +1,46 @@
-import TaskList from './components/TaskList';
-
-// Example sample tasks
-const sampleTasks = [
-  { id: '1', title: 'Design UI', description: 'Create wireframes for the dashboard', status: 'In Progress' },
-  { id: '2', title: 'Set up API', description: 'Establish endpoints for task management', status: 'Pending' },
-];
-
 export default function Home() {
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Welcome to Task Manager</h1>
-      <TaskList tasks={sampleTasks} />
+      {/* Hero Section */}
+      <main className="max-w-6xl mx-auto px-4 py-16">
+        <section className="text-center">
+          <h1 className="text-5xl font-extrabold mb-6">
+            Welcome to Task Manager
+          </h1>
+          <p className="text-xl mb-8 text-gray-700">
+            Stay organized, track your progress, and boost your productivity
+            with our sleek and modern task management app.
+          </p>
+          <a
+            href="/register"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
+          >
+            Get Started
+          </a>
+        </section>
+
+        {/* Features Section */}
+        <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+            <h3 className="text-2xl font-semibold mb-3">Easy Task Management</h3>
+            <p className="text-gray-600">
+              Quickly create, update, and delete tasks with an intuitive interface.
+            </p>
+          </div>
+          <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+            <h3 className="text-2xl font-semibold mb-3">Organize by Status</h3>
+            <p className="text-gray-600">
+              Group your tasks by status—pending, in-progress, or completed—to keep your workflow clear.
+            </p>
+          </div>
+          <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+            <h3 className="text-2xl font-semibold mb-3">Account Support</h3>
+            <p className="text-gray-600">
+              Access your tasks from anywhere by creating an account and logging in.
+            </p>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
