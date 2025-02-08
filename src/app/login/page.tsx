@@ -1,46 +1,83 @@
+// Inside your login page (app/login/page.tsx)
 "use client";
 
-import Layout from '../components/Layout';
-import { useState } from 'react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { setIsAuthenticated } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Integrate your login logic here
-    console.log('Logging in with', { email, password });
+    setError("");
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        setIsAuthenticated(true);
+        router.push("/dashboard");
+      } else {
+        setError(data.error || "Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An unexpected error occurred.");
+    }
   };
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Login</h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <label className="block mb-4">
-          <span className="block mb-1">Email</span>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className="border p-2 w-full rounded"
-            required
-          />
-        </label>
-        <label className="block mb-4">
-          <span className="block mb-1">Password</span>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            className="border p-2 w-full rounded"
-            required
-          />
-        </label>
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-          Login
-        </button>
-      </form>
+      <div className="max-w-md mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-4">Login</h1>
+        {error && <p className="mb-4 text-red-500">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block mb-1" htmlFor="email">
+              Email:
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block mb-1" htmlFor="password">
+              Password:
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2 rounded"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
