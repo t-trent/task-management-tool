@@ -15,24 +15,30 @@ export default function Register() {
     e.preventDefault();
     setError("");
     setSuccess("");
-
+  
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
+  
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
+      // If the API returned a redirect, use the router to redirect
+      if (res.redirected) {
+        router.push(res.url);
+        return;
+      }
+  
       const data = await res.json();
-
+  
       if (res.ok) {
         setSuccess("Registration successful! Redirecting to login...");
-        // Optionally redirect after a short delay
+        // Optionally, redirect after a short delay if the API doesn't already redirect.
         setTimeout(() => router.push("/login"), 2000);
       } else {
         setError(data.error || "Registration failed");
@@ -41,6 +47,7 @@ export default function Register() {
       setError("An unexpected error occurred.");
     }
   };
+  
 
   return (
     <div>
@@ -58,7 +65,7 @@ export default function Register() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -71,7 +78,7 @@ export default function Register() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -84,13 +91,13 @@ export default function Register() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white p-2 rounded"
+            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           >
             Register
           </button>

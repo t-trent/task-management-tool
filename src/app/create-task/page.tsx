@@ -64,7 +64,7 @@ export default function CreateTask() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
@@ -76,11 +76,11 @@ export default function CreateTask() {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={4}
           />
         </div>
-        <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded">
+        <button type="submit" className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
           Create Task
         </button>
       </form>

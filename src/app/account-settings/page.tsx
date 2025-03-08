@@ -95,53 +95,53 @@ export default function AccountSettings() {
       <form onSubmit={handleUpdate}>
         <div className="mb-4">
           <label className="block mb-1" htmlFor="email">
-            Email:
+            Email
           </label>
           <input
             id="email"
             type="email"
             value={userData.email}
-            readOnly
-            className="w-full p-2 border rounded text-black bg-gray-200"
+            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="mb-4">
           <label className="block mb-1" htmlFor="firstName">
-            First Name:
+            First Name
           </label>
           <input
             id="firstName"
             type="text"
             value={userData.firstName}
             onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="mb-4">
           <label className="block mb-1" htmlFor="lastName">
-            Last Name:
+            Last Name
           </label>
           <input
             id="lastName"
             type="text"
             value={userData.lastName}
             onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="mb-4">
           <label className="block mb-1" htmlFor="birthday">
-            Birthday:
+            Birthday
           </label>
           <input
             id="birthday"
             type="date"
             value={userData.birthday}
             onChange={(e) => setUserData({ ...userData, birthday: e.target.value })}
-            className="w-full p-2 border rounded text-black"
+            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+        <button type="submit" className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
           Update Settings
         </button>
       </form>
