@@ -27,7 +27,7 @@ model Task {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
-  status      String   // Consider using an enum if you have fixed statuses (e.g., "pending", "in-progress", "completed")
+  status      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   user        User?    @relation(fields: [userId], references: [id])
