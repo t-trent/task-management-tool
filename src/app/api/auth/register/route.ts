@@ -1,19 +1,43 @@
+// app/api/auth/register/route.ts
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import prisma from '../../../lib/prisma'; // Adjust the import path to match your project structure
+import jwt from 'jsonwebtoken';
+import prisma from '@/app/lib/prisma';
+
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
 
 export async function POST(request: Request) {
   try {
+    // Check if the user is already logged in
+    const authHeader = request.headers.get("Authorization");
+    if (authHeader) {
+      const token = authHeader.replace("Bearer ", "");
+      try {
+        jwt.verify(token, JWT_SECRET);
+        // If token is valid, redirect the user to their dashboard
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      } catch (err) {
+        // If token is invalid or expired, continue with registration
+      }
+    }
+
+    // Proceed with registration if no valid token is found
     const { email, password } = await request.json();
 
     if (!email || !password) {
-      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Email and password are required' },
+        { status: 400 }
+      );
     }
 
     // Check if the user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return NextResponse.json({ error: 'User already exists' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 409 }
+      );
     }
 
     // Hash the password
@@ -27,8 +51,15 @@ export async function POST(request: Request) {
       },
     });
 
-    return NextResponse.json({ message: 'User registered successfully', user });
+    return NextResponse.json(
+      { message: 'User registered successfully', user },
+      { status: 201 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: 'Registration failed' }, { status: 500 });
+    console.error("Registration error:", error);
+    return NextResponse.json(
+      { error: 'Registration failed' },
+      { status: 500 }
+    );
   }
 }
