@@ -7,11 +7,16 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
-  const router = useRouter();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
-  // Listen for token changes in localStorage.
   useEffect(() => {
+    // Check token in localStorage
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
+    setIsAuthChecked(true);
+
     const handleStorageChange = () => {
       const token = localStorage.getItem("token");
       setIsAuthenticated(!!token);
@@ -38,28 +43,29 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
-          {isAuthenticated ? (
-            <>
-              <Link href="/dashboard" className="hover:underline">
-                Dashboard
-              </Link>
-              <Link href="/account-settings" className="hover:underline">
-                Account Settings
-              </Link>
-              <button onClick={handleLogout} className="hover:underline">
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="hover:underline">
-                Login
-              </Link>
-              <Link href="/register" className="hover:underline">
-                Sign Up
-              </Link>
-            </>
-          )}
+          {isAuthChecked &&
+            (isAuthenticated ? (
+              <>
+                <Link href="/dashboard" className="hover:underline">
+                  Dashboard
+                </Link>
+                <Link href="/account-settings" className="hover:underline">
+                  Account Settings
+                </Link>
+                <button onClick={handleLogout} className="hover:underline">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hover:underline">
+                  Login
+                </Link>
+                <Link href="/register" className="hover:underline">
+                  Sign Up
+                </Link>
+              </>
+            ))}
         </nav>
 
         {/* Mobile Navigation Toggle */}
@@ -99,50 +105,51 @@ export default function Header() {
       {mobileMenuOpen && (
         <nav className="md:hidden bg-blue-600">
           <div className="container mx-auto px-4 py-2 flex flex-col space-y-2">
-            {isAuthenticated ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:underline"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/account-settings"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:underline"
-                >
-                  Account Settings
-                </Link>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="text-left hover:underline"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:underline"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:underline"
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
+            {isAuthChecked &&
+              (isAuthenticated ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:underline"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/account-settings"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:underline"
+                  >
+                    Account Settings
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="text-left hover:underline"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:underline"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="hover:underline"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              ))}
           </div>
         </nav>
       )}
