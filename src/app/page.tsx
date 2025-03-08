@@ -9,7 +9,7 @@ export default function Home() {
           </h1>
           <p className="text-xl mb-8 text-gray-700">
             Stay organized, track your progress, and boost your productivity
-            with our sleek and modern task management app.
+            with our task management app.
           </p>
           <a
             href="/register"
@@ -24,13 +24,13 @@ export default function Home() {
           <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
             <h3 className="text-2xl font-semibold mb-3">Easy Task Management</h3>
             <p className="text-gray-600">
-              Quickly create, update, and delete tasks with an intuitive interface.
+              Quickly create, update, and delete tasks.
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
             <h3 className="text-2xl font-semibold mb-3">Organize by Status</h3>
             <p className="text-gray-600">
-              Group your tasks by status—pending, in-progress, or completed—to keep your workflow clear.
+              Group your tasks by status to keep your workflow clear.
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
