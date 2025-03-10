@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
 // GET: Fetch a single task by id
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.cookies.get("accessToken")?.value;
@@ -20,12 +20,9 @@ export async function GET(
     }
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
-    const { id } = params;
+    const { id } = await params;
     const task = await prisma.task.findFirst({
-      where: {
-        id: Number(id),
-        userId: decoded.userId,
-      },
+      where: { id: Number(id), userId: decoded.userId },
     });
 
     if (!task) {
@@ -54,7 +51,7 @@ export async function GET(
 // PUT: Update a task's status or other fields
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.cookies.get("accessToken")?.value;
@@ -66,7 +63,7 @@ export async function PUT(
     }
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
-    const { id } = params;
+    const { id } = await params;
     const { status } = await request.json();
     if (!status) {
       return NextResponse.json(
@@ -76,10 +73,7 @@ export async function PUT(
     }
 
     const updated = await prisma.task.updateMany({
-      where: {
-        id: Number(id),
-        userId: decoded.userId,
-      },
+      where: { id: Number(id), userId: decoded.userId },
       data: { status },
     });
 
@@ -103,7 +97,7 @@ export async function PUT(
 // DELETE: Delete a task
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = request.cookies.get("accessToken")?.value;
@@ -115,12 +109,9 @@ export async function DELETE(
     }
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
-    const { id } = params;
+    const { id } = await params;
     const deleted = await prisma.task.deleteMany({
-      where: {
-        id: Number(id),
-        userId: decoded.userId,
-      },
+      where: { id: Number(id), userId: decoded.userId },
     });
 
     if (deleted.count === 0) {
