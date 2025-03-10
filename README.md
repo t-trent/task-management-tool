@@ -1,6 +1,6 @@
 # Task Manager
 
-A simple full-stack task management tool run locally built with Next.js, TypeScript, and Tailwind CSS on the frontend and Node.js with PostgreSQL on the backend.
+A simple full-stack task management tool run locally built with Next.js, TypeScript, and Tailwind CSS on the frontend and Node.js with Prisma and PostgreSQL on the backend.
 
 ## Table of Contents
 
