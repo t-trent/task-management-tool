@@ -141,7 +141,7 @@ export default function Dashboard() {
             In-Progress
           </h2>
           {inProgressTasks.length === 0 ? (
-            <p className="text-gray-500">No In-Progress tasks.</p>
+            <p className="text-gray-500">No in-progress tasks.</p>
           ) : (
             <TaskList
               tasks={inProgressTasks}
