@@ -6,7 +6,7 @@ interface UserData {
   email: string;
   firstName?: string;
   lastName?: string;
-  birthday?: string; // ISO date string (YYYY-MM-DD)
+  birthday?: string;
 }
 
 export default function AccountSettings() {
@@ -18,14 +18,9 @@ export default function AccountSettings() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Not authenticated");
-          setLoading(false);
-          return;
-        }
         const res = await fetch("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
+          method: "GET",
+          credentials: "include",
         });
         if (!res.ok) {
           throw new Error("Failed to fetch user data");
@@ -33,7 +28,7 @@ export default function AccountSettings() {
         const data = await res.json();
         // Convert birthday to YYYY-MM-DD if present
         let birthdayStr = "";
-        if (data.user.birthday) {
+        if (data.user?.birthday) {
           birthdayStr = new Date(data.user.birthday).toISOString().split("T")[0];
         }
         setUserData({
@@ -57,10 +52,10 @@ export default function AccountSettings() {
     setError("");
     setSuccess("");
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch("/api/auth/update", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           firstName: userData?.firstName,
           lastName: userData?.lastName,
@@ -84,7 +79,11 @@ export default function AccountSettings() {
   }
 
   if (error || !userData) {
-    return <div className="max-w-md mx-auto p-4 text-red-500">{error || "No user data available."}</div>;
+    return (
+      <div className="max-w-md mx-auto p-4 text-red-500">
+        {error || "No user data available."}
+      </div>
+    );
   }
 
   return (
@@ -101,7 +100,9 @@ export default function AccountSettings() {
             id="email"
             type="email"
             value={userData.email}
-            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, email: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -113,7 +114,9 @@ export default function AccountSettings() {
             id="firstName"
             type="text"
             value={userData.firstName}
-            onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, firstName: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -125,7 +128,9 @@ export default function AccountSettings() {
             id="lastName"
             type="text"
             value={userData.lastName}
-            onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, lastName: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -137,11 +142,16 @@ export default function AccountSettings() {
             id="birthday"
             type="date"
             value={userData.birthday}
-            onChange={(e) => setUserData({ ...userData, birthday: e.target.value })}
+            onChange={(e) =>
+              setUserData({ ...userData, birthday: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button type="submit" className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
           Update Settings
         </button>
       </form>
