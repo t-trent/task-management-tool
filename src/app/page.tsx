@@ -1,4 +1,45 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/auth/validate", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          setIsAuthenticated(true);
+          router.push("/dashboard");
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsAuthChecked(true);
+      }
+    }
+    checkAuth();
+  }, [router]);
+
+  if (!isAuthChecked) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // If not authenticated, show the landing page content.
   return (
     <div>
       {/* Hero Section */}
@@ -18,7 +59,6 @@ export default function Home() {
             Get Started
           </a>
         </section>
-
         {/* Features Section */}
         <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-xl transition">
