@@ -15,39 +15,38 @@ export default function Register() {
     e.preventDefault();
     setError("");
     setSuccess("");
-  
+
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-  
+
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
-  
-      // If the API returned a redirect, use the router to redirect
+
       if (res.redirected) {
         router.push(res.url);
         return;
       }
-  
+
       const data = await res.json();
-  
+
       if (res.ok) {
         setSuccess("Registration successful! Redirecting to login...");
-        // Optionally, redirect after a short delay if the API doesn't already redirect.
         setTimeout(() => router.push("/login"), 2000);
       } else {
         setError(data.error || "Registration failed");
       }
     } catch (err) {
+      console.error("Registration error:", err);
       setError("An unexpected error occurred.");
     }
   };
-  
 
   return (
     <div>

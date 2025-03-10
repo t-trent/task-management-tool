@@ -18,16 +18,11 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  // Fetch tasks from the API
+  // Fetch tasks from the API using credentials
   const fetchTasks = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        router.push("/login");
-        return;
-      }
       const res = await fetch("/api/tasks", {
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
       });
 
       let data;
@@ -41,7 +36,6 @@ export default function Dashboard() {
         setTasks(data.tasks || []);
       } else {
         if (data.error === "Token expired, please log in again") {
-          localStorage.removeItem("token");
           router.push("/login");
           return;
         }
@@ -59,16 +53,15 @@ export default function Dashboard() {
     fetchTasks();
   }, [router]);
 
-  // Callback to update a task's status
+  // Callback to update a task's status using credentials: "include"
   const updateTaskStatus = async (taskId: string, newStatus: string) => {
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(`/api/tasks/${taskId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) {
@@ -82,13 +75,12 @@ export default function Dashboard() {
     }
   };
 
-  // Callback to delete a task
+  // Callback to delete a task using credentials: "include"
   const deleteTask = async (taskId: string) => {
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(`/api/tasks/${taskId}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        credentials: "include",
       });
       if (!res.ok) {
         const data = await res.json();
@@ -115,7 +107,6 @@ export default function Dashboard() {
   }
 
   return (
-    // Removed bg-gray-100 from this outer div
     <div className="min-h-screen py-8">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center mb-8">

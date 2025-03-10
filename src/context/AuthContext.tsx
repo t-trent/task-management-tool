@@ -12,10 +12,25 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check authentication status on mount
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
+    async function checkAuth() {
+      try {
+        // Make sure to include credentials to send cookies
+        const res = await fetch("/api/auth/validate", {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+        setIsAuthenticated(false);
+      }
+    }
+    checkAuth();
   }, []);
 
   return (

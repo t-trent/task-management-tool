@@ -8,10 +8,7 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "your_refresh_secre
 
 export async function POST(request: Request) {
   try {
-    // If using cookies, get refresh token from cookie:
     const refreshToken = request.headers.get("Cookie")?.split("refreshToken=")[1];
-    // Alternatively, you can accept it in the body:
-    // const { refreshToken } = await request.json();
 
     if (!refreshToken) {
       return NextResponse.json(
@@ -30,14 +27,13 @@ export async function POST(request: Request) {
       { expiresIn: "1h" }
     );
 
-    // Optionally, issue a new refresh token if desired:
     const newRefreshToken = jwt.sign(
       { userId: decoded.userId },
       JWT_REFRESH_SECRET,
       { expiresIn: "7d" }
     );
 
-    // Send the new access token (and new refresh token via HttpOnly cookie)
+    // Send the new access token and new refresh token via HttpOnly cookie
     const response = NextResponse.json({ accessToken: newAccessToken });
 
     // Set refresh token cookie (HttpOnly, Secure, etc.)

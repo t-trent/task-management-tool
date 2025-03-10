@@ -11,7 +11,7 @@ interface Task {
 }
 
 export default function EditTask() {
-  const { id } = useParams(); // Get the dynamic parameter using the hook
+  const { id } = useParams();
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -20,14 +20,8 @@ export default function EditTask() {
   useEffect(() => {
     async function fetchTask() {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setError("Not authenticated");
-          setLoading(false);
-          return;
-        }
         const res = await fetch(`/api/tasks/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: "include",
         });
         if (!res.ok) {
           throw new Error("Failed to fetch task");
@@ -48,17 +42,12 @@ export default function EditTask() {
     e.preventDefault();
     setError("");
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Not authenticated");
-        return;
-      }
       const res = await fetch(`/api/tasks/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
         body: JSON.stringify({
           title: task?.title,
           description: task?.description,
@@ -82,7 +71,11 @@ export default function EditTask() {
   }
 
   if (error || !task) {
-    return <div className="container mx-auto p-4 text-red-500">{error || "Task not found"}</div>;
+    return (
+      <div className="container mx-auto p-4 text-red-500">
+        {error || "Task not found"}
+      </div>
+    );
   }
 
   return (
@@ -109,7 +102,9 @@ export default function EditTask() {
           <textarea
             id="description"
             value={task.description}
-            onChange={(e) => setTask({ ...task, description: e.target.value })}
+            onChange={(e) =>
+              setTask({ ...task, description: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={4}
           />
@@ -121,7 +116,9 @@ export default function EditTask() {
           <select
             id="status"
             value={task.status}
-            onChange={(e) => setTask({ ...task, status: e.target.value })}
+            onChange={(e) =>
+              setTask({ ...task, status: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="pending">Pending</option>
@@ -130,7 +127,10 @@ export default function EditTask() {
           </select>
         </div>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <button type="submit" className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
           Update Task
         </button>
       </form>

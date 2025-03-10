@@ -1,18 +1,21 @@
 // app/api/auth/update/route.ts
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
-import prisma from "../../../lib/prisma";
+import prisma from "@/app/lib/prisma";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
 
-export async function PUT(request: Request) {
+export async function PUT(request: NextRequest) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Authorization header missing" }, { status: 401 });
+    // Extract the token from the cookie named "accessToken"
+    const token = request.cookies.get("accessToken")?.value;
+    if (!token) {
+      return NextResponse.json(
+        { error: "Not authenticated" },
+        { status: 401 }
+      );
     }
 
-    const token = authHeader.replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
     const { firstName, lastName, birthday } = await request.json();
@@ -29,6 +32,9 @@ export async function PUT(request: Request) {
     return NextResponse.json({ message: "User updated", user: updatedUser });
   } catch (error) {
     console.error("Update error:", error);
-    return NextResponse.json({ error: "Failed to update user data" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update user data" },
+      { status: 500 }
+    );
   }
 }

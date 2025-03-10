@@ -12,24 +12,15 @@ export default function Header() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check token in localStorage
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
     setIsAuthChecked(true);
+  }, []);
 
-    const handleStorageChange = () => {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, [setIsAuthenticated]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    // Call an API endpoint to clear the HttpOnly cookie.
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     setIsAuthenticated(false);
     router.push("/login");
   };

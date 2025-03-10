@@ -1,4 +1,3 @@
-// Inside your login page (app/login/page.tsx)
 "use client";
 
 import { useState } from "react";
@@ -20,13 +19,13 @@ export default function Login() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
         setIsAuthenticated(true);
         router.push("/dashboard");
       } else {

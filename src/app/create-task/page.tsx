@@ -12,43 +12,33 @@ export default function CreateTask() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-  
+
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        router.push("/login");
-        return;
-      }
-  
       const res = await fetch("/api/tasks", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ title, description }),
       });
-  
-      // Check for empty responses or invalid JSON
+
       let data;
       try {
         data = await res.json();
       } catch (jsonError) {
         throw new Error("Received an empty or invalid response from the server.");
       }
-  
+
       if (!res.ok) {
         throw new Error(data.error || "Failed to create task");
       }
-  
-      // On success, redirect to the dashboard.
+
+      // On success, redirect to the dashboard
       router.push("/dashboard");
     } catch (err: any) {
       console.error("Error creating task:", err);
       setError(err.message || "An unexpected error occurred.");
     }
   };
-  
 
   return (
     <div className="container mx-auto p-4">
@@ -80,7 +70,10 @@ export default function CreateTask() {
             rows={4}
           />
         </div>
-        <button type="submit" className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        >
           Create Task
         </button>
       </form>

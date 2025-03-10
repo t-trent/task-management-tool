@@ -1,5 +1,5 @@
 // app/api/tasks/[id]/route.ts
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/app/lib/prisma";
 import jwt from "jsonwebtoken";
 
@@ -7,19 +7,17 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
 
 // GET: Fetch a single task by id
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) {
+    const token = request.cookies.get("accessToken")?.value;
+    if (!token) {
       return NextResponse.json(
-        { error: "Authorization header missing" },
+        { error: "Not authenticated" },
         { status: 401 }
       );
     }
-
-    const token = authHeader.replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
     const { id } = params;
@@ -55,19 +53,17 @@ export async function GET(
 
 // PUT: Update a task's status or other fields
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) {
+    const token = request.cookies.get("accessToken")?.value;
+    if (!token) {
       return NextResponse.json(
-        { error: "Authorization header missing" },
+        { error: "Not authenticated" },
         { status: 401 }
       );
     }
-
-    const token = authHeader.replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
     const { id } = params;
@@ -106,19 +102,17 @@ export async function PUT(
 
 // DELETE: Delete a task
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const authHeader = request.headers.get("Authorization");
-    if (!authHeader) {
+    const token = request.cookies.get("accessToken")?.value;
+    if (!token) {
       return NextResponse.json(
-        { error: "Authorization header missing" },
+        { error: "Not authenticated" },
         { status: 401 }
       );
     }
-
-    const token = authHeader.replace("Bearer ", "");
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
 
     const { id } = params;
